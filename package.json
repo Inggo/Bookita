@@ -1,0 +1,25 @@
+{
+  "name": "Bookita",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.html",
+  "scripts": {
+    "dev": "webpack --env.NODE_ENV=development --progress",
+    "watch": "webpack --env.NODE_ENV=development --progress --watch",
+    "prod": "webpack --env.NODE_ENV=production --env.production --progress"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "buefy": "^0.7.2",
+    "css-loader": "^2.1.0",
+    "dotenv-webpack": "^1.7.0",
+    "ejs": "^2.6.1",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.23.1",
+    "vue": "^2.6.7",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3"
+  }
+}

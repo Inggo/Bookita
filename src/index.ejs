@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title><%= process.env.TITLE %></title>
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css">
+  </head>
+  <body>
+    <div id="bookita">
+      <section class="hero">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">
+              {{ title }}
+            </h1>
+            <h2 class="subtitle">
+              <b-field>
+                <b-input v-model="search"></b-input>
+              </b-field>
+            </h2>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
