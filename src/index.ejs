@@ -6,20 +6,26 @@
     <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css">
   </head>
   <body>
-    <div id="bookita">
-      <section class="hero">
+    <div id="bookita" v-cloak>
+      <section class="hero is-primary is-medium is-fullheight">
+        <div class="hero-head"></div>
         <div class="hero-body">
           <div class="container">
-            <h1 class="title">
+            <h1 class="title has-text-centered">
+              <b-logo></b-logo>
               {{ title }}
             </h1>
             <h2 class="subtitle">
-              <b-field>
-                <b-input v-model="search"></b-input>
+              <b-field grouped>
+                <b-input v-model="search" placeholder="Search Here" size="is-large" expanded></b-input>
+                <p class="control">
+                    <button class="button is-secondary is-large">Search</button>
+                </p>
               </b-field>
             </h2>
           </div>
         </div>
+        <div class="hero-foot"></div>
       </section>
     </div>
   </body>

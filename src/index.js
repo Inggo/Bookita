@@ -1,8 +1,10 @@
+import './style.scss'
 import Vue from 'vue'
 import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'
 
 Vue.use(Buefy)
+
+Vue.component('b-logo', require('./components/Logo.vue').default)
 
 var app = new Vue({
   el: '#bookita',
