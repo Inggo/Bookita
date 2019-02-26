@@ -8,21 +8,18 @@
   <body>
     <div id="bookita" v-cloak>
       <section class="hero is-primary is-medium is-fullheight">
-        <div class="hero-head"></div>
+        <div class="hero-head">
+
+        </div>
         <div class="hero-body">
           <div class="container">
             <h1 class="title has-text-centered">
               <b-logo></b-logo>
               {{ title }}
             </h1>
-            <h2 class="subtitle">
-              <b-field grouped>
-                <b-input v-model="search" placeholder="Search Here" size="is-large" expanded></b-input>
-                <p class="control">
-                    <button class="button is-secondary is-large">Search</button>
-                </p>
-              </b-field>
-            </h2>
+            <div class="subtitle">
+              <b-database></b-database>
+            </div>
           </div>
         </div>
         <div class="hero-foot"></div>

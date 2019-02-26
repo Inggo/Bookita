@@ -1,9 +1,13 @@
 const path = require('path');
+const dotenv = require('dotenv').config({path: __dirname + '/.env'});
 const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CreateFileWebpack = require('create-file-webpack');
+
+const XLSX = require('xlsx');
 
 module.exports = env => {
   return {
@@ -38,6 +42,10 @@ module.exports = env => {
         {
           test: /\.vue$/,
           loader: 'vue-loader'
+        },
+        {
+          test: /\.xls.?$/,
+          loader: 'excel-loader'
         }
       ]
     },
@@ -49,6 +57,11 @@ module.exports = env => {
         inject: 'body'
       }),
       new VueLoaderPlugin(),
+      new CreateFileWebpack({
+        path: './static',
+        fileName: dotenv.parsed.DB,
+        content: './static/' + dotenv.parsed.DB_SRC
+      }),
       new CopyWebpackPlugin([
         { from: 'static' }
       ])

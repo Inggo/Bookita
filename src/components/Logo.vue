@@ -1,7 +1,7 @@
 <template>
   <div class="columns">
     <div class="column"></div>
-    <div class="column is-one-quarter">
+    <div class="column is-one-fifth">
       <img :src="logo" :alt="title" class="logo">
     </div>
     <div class="column"></div>

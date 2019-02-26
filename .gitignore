@@ -2,3 +2,5 @@ dist/
 static/
 node_modules/
 .env
+*.xls
+*.xlsx
