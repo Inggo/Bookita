@@ -8,6 +8,11 @@
       <div v-else>
         <p v-if="!database">Database Not Found. Please set-up with appropriate database.</p>
         <code v-if="debug && error">{{ error }}</code>
+        <bkt-search
+          :database="database"
+          :fields="fields"
+          :indices="indices"
+        ></bkt-search>
       </div>
     </transition>
   </div>
@@ -23,7 +28,9 @@ export default {
       loading: true,
       database: null,
       error: null,
-      debug: process.env.NODE_ENV !== "production"
+      debug: process.env.NODE_ENV !== "production",
+      fields: process.env.DB_FIELDS.split(','),
+      indices: process.env.DB_INDICES.split(',')
     }
   },
   mounted () {
