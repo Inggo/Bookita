@@ -7,66 +7,63 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CreateFileWebpack = require('create-file-webpack');
 
-module.exports = env => {
-  return {
-    mode: dotenv.parsed.ENV,
-    entry: './src/index.js',
-    output: {
-      filename: 'bundle.js',
-      path: path.resolve(__dirname, 'dist')
-    },
-    resolve: {
-      extensions: ['.js', '.vue'],
-      alias: {
-        'vue': 'vue/dist/vue.common.js',
-        'src': path.resolve(__dirname, '../src'),
-        'assets': path.resolve(__dirname, '../src/assets'),
-        'components': path.resolve(__dirname, '../src/components')
-      }
-    },
-    module: {
-      rules: [
-        {
-          test: /\.css$/,
-          use: ['style-loader', 'css-loader']
-        },
-        {
-          test: /\.scss$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: ['css-loader', 'sass-loader']
-          })
-        },
-        {
-          test: /\.vue$/,
-          loader: 'vue-loader'
-        },
-        {
-          test: /\.xls.?$/,
-          loader: 'excel-loader'
-        }
-      ]
-    },
-    plugins: [
-      new Dotenv(),
-      new ExtractTextPlugin('style.css'),
-      new HtmlWebpackPlugin({
-        template: './src/index.ejs',
-        inject: 'body'
-      }),
-      new VueLoaderPlugin(),
-      new CopyWebpackPlugin([
-        {
-          from: 'static',
-          ignore: ['*.xlsx', '*.xls']
-        }
-      ])
-    ],
-    watchOptions: {
-      poll: true
+module.exports = {
+  mode: dotenv.parsed.ENV,
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  resolve: {
+    extensions: ['.js', '.vue'],
+    alias: {
+      'vue': 'vue/dist/vue.common.js',
+      'src': path.resolve(__dirname, '../src'),
+      'assets': path.resolve(__dirname, '../src/assets'),
+      'components': path.resolve(__dirname, '../src/components')
     }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader']
+        })
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.xls.?$/,
+        loader: 'excel-loader'
+      }
+    ]
+  },
+  plugins: [
+    new Dotenv(),
+    new ExtractTextPlugin('style.css'),
+    new HtmlWebpackPlugin({
+      template: './src/index.ejs',
+      inject: 'body'
+    }),
+    new VueLoaderPlugin(),
+    new CopyWebpackPlugin([
+      {
+        from: 'static',
+        ignore: ['*.xlsx', '*.xls']
+      }
+    ])
+  ],
+  watchOptions: {
+    poll: true
   }
-  
 };
 
 
@@ -75,7 +72,7 @@ const checksum = require('checksum');
 const fs = require('fs');
 
 
-var checkRebuild = new Promise((resolve, reject) => {
+var checkRebuild = new Promise((resolve) => {
   let shouldRebuild = false;
 
   var cs = null;
@@ -88,19 +85,28 @@ var checkRebuild = new Promise((resolve, reject) => {
     console.log("Database checksum file not found!\n");
     shouldRebuild = true;
   }
+
+  if (shouldRebuild) {
+    resolve(true);
+  }
   
   try {
     checksum.file('./static/' + dotenv.parsed.DB, (err, sum) => {
-      dbcs = sum;
-      console.log("Checking actual database checksum ", dbcs, "\n");
-      shouldRebuild = cs !== dbcs
+      if (err) {
+        console.log("Actual database not found.\n");
+        shouldRebuild = true; 
+      } else {
+        dbcs = sum;
+        console.log("Checking actual database checksum ", dbcs, "\n");
+        shouldRebuild = cs !== dbcs;
+      }
+      resolve(shouldRebuild);
     });
   } catch (err) {
     console.log("Database not found!", "\n");
     shouldRebuild = true;
+    resolve(shouldRebuild);
   }
-
-  resolve(shouldRebuild);
 });
 
 checkRebuild.then((shouldRebuild) => {
@@ -116,13 +122,8 @@ checkRebuild.then((shouldRebuild) => {
     fs.writeFileSync('./dist/CHECKSUM', dbcs);
     
     console.log("Writing database.\n")
-    module.exports.plugins.push(
-      new CreateFileWebpack({
-        path: './static',
-        fileName: dotenv.parsed.DB,
-        content: db
-      })
-    )
+
+    fs.writeFileSync('./static/' + dotenv.parsed.DB, db);
   } else {
     console.log("Database is up to date.\n");
     console.log("To force rebuild the database, delete the CHECKSUM file in the `dist` folder.\n");

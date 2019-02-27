@@ -6,13 +6,13 @@
         <b-radio 
           v-for="(ind, i) in indices"
           v-model="index"
-          :native-value="ind"
+          :native-value="i"
           :key="i"
           type="is-secondary"
         >{{ ind }}</b-radio>
       </div>
       <b-field grouped>
-        <b-input placeholder="Search Catalog" expanded></b-input>
+        <b-input :placeholder="placeholder" expanded></b-input>
         <p class="control">
           <button class="button is-secondary">Search</button>
         </p>
@@ -22,16 +22,39 @@
 </template>
 
 <script>
+import lunr from 'lunr';
+
 export default {
   data () {
     return {
-      index: this.indices.length > 0 ? this.indices[0] : null
+      index: 0,
+      lunrIndices: []
     }
   },
   props: {
     database: Array,
     fields: Array,
     indices: Array
+  },
+  computed: {
+    placeholder () {
+      return "SEARCH BY " + this.indices[this.index];
+    }
+  },
+  mounted () {
+    var docs = this.database;
+
+    for (var i = 0; i < this.indices.length; i++) {
+      var ind = this.indices[i];
+      this.lunrIndices.push(lunr => {
+        this.ref('id');
+        this.field(ind);
+
+        docs.forEach((doc) => {
+          this.add(doc);
+        }, this)
+      });
+    }
   }
 }
 </script>
