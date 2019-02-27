@@ -15,7 +15,6 @@
 
 <script>
 import axios from 'axios';
-import md5 from 'md5';
 
 export default {
   data () {
@@ -50,24 +49,8 @@ export default {
 
         // If remote hash does not exist, write it
       }, (error) => {
-        // Load source DB
-        this.loadMessage = "Unable to load remote database...";
-        this.loadMessage += " Attempting to load source database...";
-
-        try {
-          var database = require('./../../static/' + process.env.DB_SRC);
-
-          this.loadMessage = "Processing source database...";
-
-          // Save source DB
-
-          // Save MD5
-          // Save local DB 
-        } catch (e) {
-          // Unable to load source database
-          this.loadMessage = "Unable to load source database. Please contact an administrator.";
-          console.log(e);
-        }
+        this.loadMessage = "Unable to load remote database... Please contact an administrator.";
+        this.loading = false;
       });
   }
 }
