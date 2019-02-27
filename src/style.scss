@@ -50,3 +50,17 @@ $link-focus-border: $primary;
 .checkbox:hover, .radio:hover {
   color: $secondary;
 }
+
+.hero.is-primary .subtitle .modal {
+  color: $black;
+}
+
+.result-table {
+  th {
+    text-align: right;
+    width: 22.5%;
+  }
+  td {
+    width: 77.5%;
+  }
+}
