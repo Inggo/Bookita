@@ -31,26 +31,33 @@ export default {
     this.loadMessage = "Checking local database...";
 
     // Compare MD5 hash
+    var db = localStorage.getItem('db');
+    var db_hash = localStorage.getItem('db_hash');
 
-    // Load local DB
-
-    // Check if DB file exists
-    this.loadMessage = "Loading remote database...";
-
-    axios.get(process.env.DB)
+    axios.get('CHECKSUM')
       .then((response) => {
-        // Load remote DB
-        this.loading = false;
-        this.database = response;
+        if (db_hash == response.data) {
+          // Load local DB
+          this.database = JSON.parse(db);
+          this.loading = false;
+        } else {
+          db_hash = response.data;
+          axios.get(process.env.DB)
+            .then((response) => {
+              // Load remote DB
+              this.database = response.data;
 
-        // Calculate MD5
+              localStorage.setItem('db', JSON.stringify(this.database));
+              localStorage.setItem('db_hash', db_hash);
 
-        // Compare with remote hash
-
-        // If remote hash does not exist, write it
-      }, (error) => {
-        this.loadMessage = "Unable to load remote database... Please contact an administrator.";
-        this.loading = false;
+              this.loading = false;
+            }, (error) => {
+              this.loadMessage = "Unable to load remote database... Please contact an administrator.";
+              this.loading = false;
+            });
+        }
+      }, (err) => {
+        this.loadMessage = "Remote checksum not found, please contact an administrator.";   
       });
   }
 }

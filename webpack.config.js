@@ -8,7 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CreateFileWebpack = require('create-file-webpack');
 
 module.exports = {
-  mode: dotenv.parsed.NODE_ENV,
+  mode: dotenv.parsed.ENV,
   entry: './src/index.js',
   output: {
     filename: 'bundle.js',
