@@ -30,6 +30,10 @@ $link-focus-border: $primary;
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
 
+html, body {
+  overflow: hidden;
+}
+
 [v-cloak] {
   display: none;
 }
@@ -63,4 +67,15 @@ $link-focus-border: $primary;
   td {
     width: 77.5%;
   }
+}
+
+.help-button {
+  position: fixed;
+  top: .5rem;
+  right: .5rem;
+}
+
+hr {
+  margin: .25rem auto;
+  background-color: $secondary;
 }

@@ -43,6 +43,10 @@ module.exports = {
       {
         test: /\.xls.?$/,
         loader: 'excel-loader'
+      },
+      {
+          test: /\.(eot|svg|ttf|woff|woff2)(\??\#?v=[.0-9]+)?$/,
+          loader: 'file-loader?name=/fonts/[name].[ext]',
       }
     ]
   },

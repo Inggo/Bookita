@@ -15,6 +15,7 @@
           </tbody>
         </table>
       </div>
+      <bkt-box v-if="results.length < 10"></bkt-box>
     </section>
     <footer class="modal-card-foot">
       <button class="button" type="button" @click="$parent.close()">Close</button>
@@ -47,6 +48,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.media {
 
+}
 </style>

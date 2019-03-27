@@ -1,7 +1,9 @@
 <template>
   <section>
     <b-field grouped>
-      <b-input :placeholder="placeholder" expanded v-model="query"></b-input>
+      <b-input :placeholder="placeholder" expanded v-model="query"
+        @keyup.enter="performSearch"
+      ></b-input>
       <p class="control">
         <button class="button is-secondary"
           @click="performSearch"
